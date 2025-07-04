@@ -1,0 +1,10 @@
+/* tailwind 속성을 커스텀할 수 있는 공간입니다 */
+
+.button {
+  @apply bg-blue-400 rounded px-4 py-2;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  @apply bg-blue-600;
+}
