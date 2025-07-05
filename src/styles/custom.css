@@ -8,3 +8,11 @@
 .button:hover {
   @apply bg-blue-600;
 }
+
+.mainColor {
+  @apply bg-amber-300;
+}
+
+.subColor {
+  @apply bg-amber-200;
+}
