@@ -1,17 +1,15 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-const Main = React.lazy(() => import("./pages/Main"));
-const Login = React.lazy(() => import("./pages/Login"));
+import BottomNav from "./components/BottomNav";
+import Main from "./pages/Main";
 
-const App = () => {
+function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/main" element={<Main />} />
+        <Route path="/" element={<Main />} />
       </Routes>
+      <BottomNav />
     </BrowserRouter>
   );
-};
-
+}
 export default App;
