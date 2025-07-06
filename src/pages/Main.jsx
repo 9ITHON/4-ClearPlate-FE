@@ -1,7 +1,7 @@
 import DragModal from "../components/DragModal";
 const Main = () => {
   return (
-    <div className=" bg-red-300 h-screen w-full ">
+    <div className=" bg-red-300 h-screen w-full flex flex-col">
       <div className="button" style={{ width: "100%" }}>
         <h1 className="text-red-500 text-3xl font-bold underline">Main</h1>
       </div>

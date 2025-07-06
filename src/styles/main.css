@@ -5,7 +5,7 @@
 
 /* 글로벌 변수 지정 style={{--font-display}}로 불러오기 가능*/
 @theme {
-  --font-display: "Satoshi", "sans-serif";
+  --font-display: "SUIT", "sans-serif";
   --container-width-sm: 500px; /* iPhone 13 Pro CSS 해상도 기준 */
   --container-height: 844px;
 }
@@ -25,5 +25,6 @@ body {
 }
 
 body {
+  font-family: "SUIT", "sans-serif";
   position: relative;
 }
