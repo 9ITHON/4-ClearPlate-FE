@@ -67,7 +67,7 @@ export default function BottomNav() {
                 className="flex flex-col items-center justify-center"
                 style={{
                   position: "relative",
-                  top: "-30px", 
+                  top: "-30px",
                   width: 60,
                   height: 60,
                   border: "none",

@@ -1,15 +1,17 @@
 import React, { useState, useRef } from "react";
 
-const DragModal = ({ children }) => {
-  const [height, setHeight] = useState(200); // 초기 높이 (px)
+const DragModal = ({
+  children,
+  minHeight = 350,
+  maxHeight = 600,
+  initialHeight = 350,
+}) => {
+  const [height, setHeight] = useState(initialHeight); // 초기 높이 (px)
   const [isDragging, setIsDragging] = useState(false);
 
   const startY = useRef(null);
   const startHeight = useRef(null);
   const startTime = useRef(null);
-
-  const minHeight = 200;
-  const maxHeight = 600;
 
   // 마우스 부분 (가속도 구현 x)
   const onMouseDown = (e) => {
