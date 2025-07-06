@@ -1,9 +1,13 @@
 import DragModal from "../components/DragModal";
+import KakaoMap from "../components/KakaoMap";
 const Main = () => {
   return (
     <div className=" bg-red-300 h-screen w-full flex flex-col">
       <div className="button" style={{ width: "100%" }}>
         <h1 className="text-red-500 text-3xl font-bold underline">Main</h1>
+      </div>
+      <div id="map" className="flex-1  bg-amber-100">
+        <KakaoMap />
       </div>
       <div className="absolute bottom-0 w-full">
         <DragModal>
