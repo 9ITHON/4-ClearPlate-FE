@@ -10,7 +10,7 @@ const Test = () => {
     if (!map) return;
     const ps = new window.kakao.maps.services.Places();
 
-    ps.keywordSearch("판교 맛집", (data, status, _pagination) => {
+    ps.keywordSearch("월곶 맛집", (data, status, _pagination) => {
       if (status === window.kakao.maps.services.Status.OK) {
         console.log("판교 맛집 검색 결과 상위 15개:", data); // ✅ 추가
 
