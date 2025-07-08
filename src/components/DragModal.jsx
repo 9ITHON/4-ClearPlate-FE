@@ -4,9 +4,11 @@ const DragModal = ({
   children,
   minHeight = 350,
   maxHeight = 600,
-  initialHeight = 350,
+  height,
+  setHeight,
 }) => {
-  const [height, setHeight] = useState(initialHeight); // 초기 높이 (px)
+  //초기 높이를 동적으로 변화시키기위해 부모의 status를 사용합니다!!
+  //const [height, setHeight] = useState(initialHeight); // 초기 높이 (px)
   const [isDragging, setIsDragging] = useState(false);
 
   const startY = useRef(null);
@@ -62,9 +64,9 @@ const DragModal = ({
     //가속도
     const velocity = diffY / timeElapsed; // px/ms
 
-    if (velocity > 0.5) {
+    if (velocity > 0.3) {
       setHeight(maxHeight);
-    } else if (velocity < -0.5) {
+    } else if (velocity < -0.3) {
       setHeight(minHeight);
     }
     setIsDragging(false);
@@ -75,14 +77,14 @@ const DragModal = ({
 
   return (
     <div
-      className={`  w-full" bg-white rounded-t-2xl shadow-lg flex flex-col ${
+      className={`w-full subColor rounded-t-2xl shadow-lg flex flex-col ${
         !isDragging ? "transition-[height] duration-500 ease-in-out" : ""
       }`}
       style={{ height: `${height}px` }}
     >
       {/* 드래그 핸들 */}
       <div onMouseDown={onMouseDown} onTouchStart={onTouchStart}>
-        <div className="w-12 h-1.5 bg-gray-400 rounded-full mx-auto my-2 cursor-ns-resize"></div>
+        <div className="w-12 h-1.5 mainGrayColor rounded-full mx-auto my-2 cursor-ns-resize"></div>
       </div>
 
       {/* 콘텐츠 */}

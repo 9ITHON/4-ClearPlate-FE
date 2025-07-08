@@ -1,9 +1,24 @@
 /* tailwind 속성을 커스텀할 수 있는 공간입니다 */
 
 .mainColor {
-  @apply bg-amber-300;
+  background-color: #003d28;
 }
 
 .subColor {
-  @apply bg-amber-200;
+  background-color: #f7f7f7;
+}
+
+.subTextColor {
+  color: #3fd449;
+}
+
+.mainGrayColor {
+  background-color: #c2c2c2;
+}
+
+.textGrayColor {
+  color: #c2c2c2;
+}
+.textGraySubColor {
+  color: #afafaf;
 }
