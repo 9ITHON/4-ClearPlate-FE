@@ -28,7 +28,7 @@ const Login = () => {
         autoPlay
         muted
         loop
-      />{" "}
+      />
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
       <div className="relative z-10 h-full w-full flex flex-col p-5 justify-between items-center text-white">
         <div className="w-auto flex flex-col justify-center mt-20">

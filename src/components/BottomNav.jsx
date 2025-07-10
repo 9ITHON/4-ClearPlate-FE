@@ -27,7 +27,8 @@ const navItems = [
 
 export default function BottomNav() {
   // navVisible 추가! 👇
-  const { selectedIdx, setSelectedIdx, certInProgress, navVisible } = useNavStore();
+  const { selectedIdx, setSelectedIdx, certInProgress, navVisible } =
+    useNavStore();
 
   // 네비바 숨김(로그인 등)일 때 렌더링 X 👇
   if (!navVisible) return null;
@@ -133,7 +134,9 @@ export default function BottomNav() {
             />
             <span
               className={`text-[13px] transition-colors duration-150 ${
-                isActive ? "text-[#003D28] font-bold" : "text-gray-400 font-normal"
+                isActive
+                  ? "text-[#003D28] font-bold"
+                  : "text-gray-400 font-normal"
               }`}
               style={{
                 letterSpacing: "-0.02em",
