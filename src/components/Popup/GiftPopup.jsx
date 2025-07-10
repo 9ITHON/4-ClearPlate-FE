@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Back3DBtnIcon from "../../assets/icons/Back_3D_btn.svg";
 import PointButton from "../PointButton";
 import GoodsCard from "../GoodsCard";
 import GoodsCardImg from "../../assets/goods_card.png";
+import { useNavStore } from "../../stores/navStore";
 const GiftPopup = ({ onClose, point }) => {
+  // 네비바 주스탠드로 상태 관리
+  const hideNav = useNavStore((state) => state.hideNav);
+  const showNav = useNavStore((state) => state.showNav);
+
+  useEffect(() => {
+    hideNav(); // 진입시 네비 숨김
+    return showNav; // 언마운트(나갈 때) 복구
+  }, []);
   const goodsItems = [
     {
       imageSrc: GoodsCardImg,

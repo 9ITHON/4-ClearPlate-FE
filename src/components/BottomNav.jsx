@@ -1,119 +1,98 @@
 // src/components/BottomNav.jsx
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import House from "../assets/icons/House.svg";
-import House2 from "../assets/icons/House2.svg";
-import Ticket from "../assets/icons/Ticket.svg";
-import Ticket2 from "../assets/icons/Ticket2.svg";
-import PlusButton from "../assets/icons/PlusButton.svg";
-import Notepad from "../assets/icons/Notepad.svg";
-import Notepad2 from "../assets/icons/Notepad2.svg";
-import UserCircle from "../assets/icons/UserCircle.svg";
+import { useNavStore } from "../stores/navStore";
 
-// navItems (완식 확인으로 변경)
+import House from "../assets/icons/Nav_icon/House_L.svg";
+import HouseActive from "../assets/icons/Nav_icon/House.svg";
+import Notepad from "../assets/icons/Nav_icon/Notepad_L.svg";
+import NotepadActive from "../assets/icons/Nav_icon/Notepad.svg";
+import QR from "../assets/icons/Nav_icon/QR.svg";
+import QRIng from "../assets/icons/Nav_icon/ing.svg";
+import Point from "../assets/icons/Nav_icon/Point_L.svg";
+import PointActive from "../assets/icons/Nav_icon/Point.svg";
+import UserCircle from "../assets/icons/Nav_icon/UserCircle_L.svg";
+import UserCircleActive from "../assets/icons/Nav_icon/UserCircle.svg";
+
 const navItems = [
+  { label: "홈", icon: House, activeIcon: HouseActive },
+  { label: "기록", icon: Notepad, activeIcon: NotepadActive },
   {
-    label: "홈",
-    icon: House,
-    activeIcon: House2,
-    route: "/main",
+    label: "식사 인증",
+    icon: QR,
+    ingIcon: QRIng,
+    isCenter: true,
   },
-  {
-    label: "리워드",
-    icon: Ticket,
-    activeIcon: Ticket2,
-    route: "/reward",
-  },
-  {
-    label: "완식 확인", // 여기!
-    icon: PlusButton,
-    activeIcon: PlusButton,
-    isPlus: true,
-  },
-  {
-    label: "기록",
-    icon: Notepad,
-    activeIcon: Notepad2,
-    route: "/record",
-  },
-  {
-    label: "마이페이지",
-    icon: UserCircle,
-    activeIcon: UserCircle,
-    route: "/mypage",
-  },
+  { label: "포인트", icon: Point, activeIcon: PointActive },
+  { label: "마이페이지", icon: UserCircle, activeIcon: UserCircleActive },
 ];
 
 export default function BottomNav() {
-  const navigate = useNavigate();
-  const [selectedIdx, setSelectedIdx] = useState(0);
-  useEffect(() => {
-    if (selectedIdx >= 0 && selectedIdx < navItems.length) {
-      const targetRoute = navItems[selectedIdx].route;
-      if (targetRoute) {
-        navigate(targetRoute);
-      }
-    }
-  }, [selectedIdx, navigate]);
+  // navVisible 추가! 👇
+  const { selectedIdx, setSelectedIdx, certInProgress, navVisible } =
+    useNavStore();
+
+  // 네비바 숨김(로그인 등)일 때 렌더링 X 👇
+  if (!navVisible) return null;
 
   return (
     <nav
-      className="fixed bottom-0 left-0 w-full h-20 bg-white flex items-end justify-between z-50 px-2"
+      className="
+        fixed bottom-0 left-1/2 z-50
+        flex items-end justify-between
+        bg-white
+        min-w-[300px] max-w-[500px] w-full
+        rounded-t-[30px]
+        px-0
+        overflow-visible
+        -translate-x-1/2
+      "
       style={{
-        borderRadius: "22px 22px 0 0",
-        boxShadow: "0 0 16px 0 #0001",
-        padding: 0,
-        margin: 0,
+        boxShadow: "none",
+        borderRadius: "30px 30px 0 0",
       }}
     >
       {navItems.map((item, idx) => {
-        const isActive = selectedIdx === idx;
-
-        if (item.isPlus) {
+        // 중앙(인증) 버튼
+        if (item.isCenter) {
           return (
             <div
               key={item.label}
-              className="relative flex flex-col items-center flex-1"
-              style={{ minWidth: 0, margin: 0, padding: 0 }}
+              className="flex-1 flex flex-col items-center justify-end z-10"
+              style={{
+                marginTop: "-31px",
+                minWidth: 0,
+              }}
             >
               <button
-                className="flex flex-col items-center justify-center"
-                style={{
-                  position: "relative",
-                  top: "-30px",
-                  width: 60,
-                  height: 60,
-                  border: "none",
-                  background: "none",
-                  zIndex: 10,
-                  minWidth: 0,
-                  margin: 0,
-                  padding: 0,
-                }}
+                className="flex flex-col items-center outline-none border-none bg-transparent"
+                style={{ padding: 0, margin: 0 }}
                 onClick={() => setSelectedIdx(idx)}
               >
-                <img
-                  src={isActive ? item.activeIcon : item.icon}
-                  alt={item.label}
-                  className="w-14 h-14"
+                <div
+                  className="flex items-center justify-center"
                   style={{
-                    background: "none",
-                    borderRadius: 0,
-                    border: "none",
-                    margin: 0,
+                    width: 62,
+                    height: 62,
+                    background: "#003D28",
+                    borderRadius: "50%",
+                    boxShadow: "0 6px 20px 0 rgba(0, 61, 40, 0.22)",
                   }}
-                />
+                >
+                  <img
+                    src={certInProgress ? item.ingIcon : item.icon}
+                    alt={item.label}
+                    style={{
+                      width: 32,
+                      height: 32,
+                      userSelect: "none",
+                    }}
+                  />
+                </div>
                 <span
-                  className={`text-[11px] transition-colors duration-150 ${
-                    isActive
-                      ? "text-black font-bold"
-                      : "text-gray-400 font-normal"
-                  }`}
+                  className="text-[13px] font-bold"
                   style={{
-                    marginTop: "20px", // 플러스와 글씨 사이 간격
-                    letterSpacing: "0.02em",
-                    paddingBottom: 0,
-                    whiteSpace: "nowrap",
+                    color: selectedIdx === idx ? "#003D28" : "#888",
+                    paddingBottom: "24px",
+                    marginTop: "13px",
                   }}
                 >
                   {item.label}
@@ -123,35 +102,46 @@ export default function BottomNav() {
           );
         }
 
+        // 첫번째(왼쪽 끝)과 마지막(오른쪽 끝)만 padding 적용
+        const isFirst = idx === 0;
+        const isLast = idx === navItems.length - 1;
+        const isActive = selectedIdx === idx;
         return (
           <button
             key={item.label}
-            className="flex flex-col items-center justify-center flex-1 h-full outline-none active:opacity-90"
+            className="flex-1 flex flex-col items-center justify-end h-full outline-none active:opacity-90"
             style={{
               minWidth: 0,
               margin: 0,
               padding: 0,
               border: "none",
               background: "none",
+              paddingLeft: isFirst ? 30 : 0,
+              paddingRight: isLast ? 30 : 0,
             }}
             onClick={() => setSelectedIdx(idx)}
           >
             <img
               src={isActive ? item.activeIcon : item.icon}
               alt={item.label}
-              className="w-7 h-7"
               style={{
-                marginBottom: "2px",
-                objectFit: "contain",
+                width: 24,
+                height: 24,
+                marginTop: 13,
+                marginBottom: 0,
+                userSelect: "none",
               }}
             />
             <span
-              className={`text-[11px] mt-[2px] transition-colors duration-150 ${
-                isActive ? "text-black font-bold" : "text-gray-400 font-normal"
+              className={`text-[13px] transition-colors duration-150 ${
+                isActive
+                  ? "text-[#003D28] font-bold"
+                  : "text-gray-400 font-normal"
               }`}
               style={{
                 letterSpacing: "-0.02em",
-                paddingBottom: 0,
+                paddingBottom: "24px",
+                marginTop: "13px",
               }}
             >
               {item.label}

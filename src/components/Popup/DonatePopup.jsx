@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Back3DBtnIcon from "../../assets/icons/Back_3D_btn.svg";
 import PointButton from "../PointButton";
 import PigPNG from "../../assets/pig.png";
 import DonateLogItem from "../DonateLoItem";
 import DonateDecidePopup from "./DonateDecidePopup";
+import { useNavStore } from "../../stores/navStore";
 const DonatePopup = ({ onClose, point, donateLogs }) => {
   const [donateDecidePopup, setDonateDecidePopup] = useState(false);
+  // 네비바 주스탠드로 상태 관리
+  const hideNav = useNavStore((state) => state.hideNav);
+  const showNav = useNavStore((state) => state.showNav);
+
+  useEffect(() => {
+    hideNav(); // 진입시 네비 숨김
+    return showNav; // 언마운트(나갈 때) 복구
+  }, []);
   return (
     <div className="fixed inset-0 subColor flex-1 px-4 flex flex-col z-50">
       <div className="w-full h-10 mt-15 font-bold text-2xl text-end flex flex-row justify-between">

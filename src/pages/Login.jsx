@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import KakaoIcon from "../assets/kakaoIcon.svg";
 import { useNavigate } from "react-router-dom";
 import bgVideo from "../assets/bg-video.mp4";
+import { useNavStore } from "../stores/navStore";
 
 const Login = () => {
   const navigate = useNavigate();
+  // 네비바 주스탠드로 상태 관리
+  const hideNav = useNavStore((state) => state.hideNav);
+  const showNav = useNavStore((state) => state.showNav);
+
+  useEffect(() => {
+    hideNav();            // 진입시 네비 숨김
+    return showNav;       // 언마운트(나갈 때) 복구
+  }, []);
+
   const loginBtnClicked = () => {
     // 추후 로그인 기능 추가
     navigate("/main");
