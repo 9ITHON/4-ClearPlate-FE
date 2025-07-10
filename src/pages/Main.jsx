@@ -3,7 +3,7 @@ import DragModal from "../components/DragModal";
 import KakaoMap from "../components/KakaoMap";
 import Search from "../assets/icons/Search.svg";
 import Notification from "../assets/icons/Notification.svg";
-import Coupon from "../assets/icons/Coupon.svg";
+import Current from "../assets/icons/Current.svg";
 import { useUserStore } from "../stores/userStore";
 import { useSelectedLocationStore } from "../stores/selectedLocationStore";
 import { useGeoLocation } from "../hooks/useGeoLocation";
@@ -194,7 +194,7 @@ const Main = () => {
         className="absolute w-10 top-15 right-18 z-2 bg-white rounded-4xl h-9 flex flex-row justify-center items-center shadow-md"
         onClick={() => currentGPS()}
       >
-        <img src={Coupon} alt="Search" className="w-5 h-5" />
+        <img src={Current} alt="Search" className="w-5 h-5" />
       </button>
       <button className="absolute w-10 top-15 right-4 z-2 bg-white rounded-4xl h-9 flex flex-row justify-center items-center shadow-md">
         <img src={Notification} alt="Search" className="w-5 h-5" />
@@ -269,7 +269,7 @@ const Main = () => {
           </div>
         </div>
         <DragModal
-          minHeight={140}
+          minHeight={125}
           maxHeight={600}
           height={initialHeight}
           setHeight={setInitialHeight}

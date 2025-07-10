@@ -4,6 +4,7 @@ import Main from "./pages/Main";
 import Login from "./pages/Login";
 import Reward from "./pages/Reward";
 import FoodProcess from "./pages/FoodProcess";
+import MyPage from "./pages/MyPage";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/reward" element={<Reward />} />
         <Route path="/foodProcess" element={<FoodProcess />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
       <BottomNav />
     </BrowserRouter>
