@@ -1,6 +1,6 @@
 // src/components/BottomNav.jsx
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import House from "../assets/icons/House.svg";
 import House2 from "../assets/icons/House2.svg";
 import Ticket from "../assets/icons/Ticket.svg";
@@ -16,11 +16,13 @@ const navItems = [
     label: "홈",
     icon: House,
     activeIcon: House2,
+    route: "/main",
   },
   {
     label: "리워드",
     icon: Ticket,
     activeIcon: Ticket2,
+    route: "/reward",
   },
   {
     label: "완식 확인", // 여기!
@@ -32,16 +34,27 @@ const navItems = [
     label: "기록",
     icon: Notepad,
     activeIcon: Notepad2,
+    route: "/record",
   },
   {
     label: "마이페이지",
     icon: UserCircle,
     activeIcon: UserCircle,
+    route: "/mypage",
   },
 ];
 
 export default function BottomNav() {
+  const navigate = useNavigate();
   const [selectedIdx, setSelectedIdx] = useState(0);
+  useEffect(() => {
+    if (selectedIdx >= 0 && selectedIdx < navItems.length) {
+      const targetRoute = navItems[selectedIdx].route;
+      if (targetRoute) {
+        navigate(targetRoute);
+      }
+    }
+  }, [selectedIdx, navigate]);
 
   return (
     <nav

@@ -6,6 +6,7 @@ const DragModal = ({
   maxHeight = 600,
   height,
   setHeight,
+  backgroundColor,
 }) => {
   //초기 높이를 동적으로 변화시키기위해 부모의 status를 사용합니다!!
   //const [height, setHeight] = useState(initialHeight); // 초기 높이 (px)
@@ -77,10 +78,10 @@ const DragModal = ({
 
   return (
     <div
-      className={`w-full subColor rounded-t-2xl shadow-lg flex flex-col ${
+      className={`w-full rounded-t-2xl shadow-lg flex flex-col ${
         !isDragging ? "transition-[height] duration-500 ease-in-out" : ""
       }`}
-      style={{ height: `${height}px` }}
+      style={{ height: `${height}px`, backgroundColor: backgroundColor }}
     >
       {/* 드래그 핸들 */}
       <div onMouseDown={onMouseDown} onTouchStart={onTouchStart}>

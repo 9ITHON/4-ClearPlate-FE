@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BottomNav from "./components/BottomNav";
 import Main from "./pages/Main";
 import Login from "./pages/Login";
+import Reward from "./pages/Reward";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/main" element={<Main />} />
+        <Route path="/reward" element={<Reward />} />
       </Routes>
       <BottomNav />
     </BrowserRouter>
