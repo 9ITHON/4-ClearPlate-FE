@@ -26,7 +26,7 @@ const KakaoMap = ({ lat = 37.4024068885376, lng = 127.101100614 }) => {
       setState((prev) => ({
         ...prev,
         center: {
-          lat: selectedLocation.lat - 0.007,
+          lat: selectedLocation.lat - 0.01,
           lng: selectedLocation.lng,
         },
       }));

@@ -35,7 +35,7 @@ const GiftPopup = ({ onClose, point }) => {
   ];
 
   return (
-    <div className="fixed inset-0 subColor flex-1 px-4 flex flex-col z-50">
+    <div className="absolute w-full h-full inset-0  subColor flex-1 px-4 flex flex-col z-50">
       <div className="w-full h-10 mt-15 font-bold text-2xl text-end flex flex-row justify-between">
         <img
           src={Back3DBtnIcon}

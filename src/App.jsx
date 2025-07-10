@@ -3,6 +3,7 @@ import BottomNav from "./components/BottomNav";
 import Main from "./pages/Main";
 import Login from "./pages/Login";
 import Reward from "./pages/Reward";
+import FoodProcess from "./pages/FoodProcess";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/main" element={<Main />} />
         <Route path="/reward" element={<Reward />} />
+        <Route path="/foodProcess" element={<FoodProcess />} />
       </Routes>
       <BottomNav />
     </BrowserRouter>

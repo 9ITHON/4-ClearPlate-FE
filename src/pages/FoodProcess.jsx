@@ -9,7 +9,7 @@ import Step6_Result from "./steps/Step6_Result";
 const TOTAL_STEP = 6;
 
 export default function FoodProcess() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [qrResult, setQrResult] = useState(null);
   const [place, setPlace] = useState(null);
   const [foodPhoto, setFoodPhoto] = useState(null);
@@ -31,7 +31,7 @@ export default function FoodProcess() {
       {/* 단계별 컴포넌트 */}
       {step === 1 && (
         <Step1_QR
-          onNext={data => {
+          onNext={(data) => {
             setQrResult(data);
             setStep(2);
           }}
@@ -40,7 +40,7 @@ export default function FoodProcess() {
       {step === 2 && (
         <Step2_Map
           qrResult={qrResult}
-          onNext={data => {
+          onNext={(data) => {
             setPlace(data);
             setStep(3);
           }}
@@ -49,7 +49,7 @@ export default function FoodProcess() {
       )}
       {step === 3 && (
         <Step3_FoodUpload
-          onNext={photo => {
+          onNext={(photo) => {
             setFoodPhoto(photo);
             setStep(4);
           }}
@@ -58,7 +58,7 @@ export default function FoodProcess() {
       )}
       {step === 4 && (
         <Step4_BowlUpload
-          onNext={photo => {
+          onNext={(photo) => {
             setBowlPhoto(photo);
             setStep(5);
           }}
@@ -69,7 +69,7 @@ export default function FoodProcess() {
         <Step5_Analyze
           food={foodPhoto}
           bowl={bowlPhoto}
-          onFinish={result => {
+          onFinish={(result) => {
             setAnalyze(result); // { percent, isSuccess }
             setStep(6);
           }}

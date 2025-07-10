@@ -269,7 +269,7 @@ const Main = () => {
           </div>
         </div>
         <DragModal
-          minHeight={125}
+          minHeight={140}
           maxHeight={600}
           height={initialHeight}
           setHeight={setInitialHeight}

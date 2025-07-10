@@ -18,7 +18,10 @@ const DonateDecidePopup = ({ onClose }) => {
           <br /> 일정 단위(예: 20P 마다 200원) 실제 금액으로 환산해 전달돼요.
         </p>
         <div className="flex flex-row gap-3 w-full justify-between">
-          <button className="mainGrayColor text-white rounded-full px-4 py-2 flex-1/2">
+          <button
+            className="mainGrayColor text-white rounded-full px-4 py-2 flex-1/2"
+            onClick={onClose}
+          >
             취소
           </button>
           <button className="mainColor text-white rounded-full px-4 py-2  flex-1/2">
