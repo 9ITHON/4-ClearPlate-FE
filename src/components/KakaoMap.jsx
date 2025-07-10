@@ -12,7 +12,6 @@ const KakaoMap = ({ lat = 37.4024068885376, lng = 127.101100614 }) => {
   const selectedLocation = useSelectedLocationStore(
     (state) => state.selectedLocation
   );
-
   useEffect(() => {
     if (lat && lng) {
       setState((prev) => ({
