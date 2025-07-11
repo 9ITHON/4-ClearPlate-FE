@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useSelectedLocationStore } from "../stores/selectedLocationStore";
 import { getCategoryParts } from "../utils/getCategoryParts";
