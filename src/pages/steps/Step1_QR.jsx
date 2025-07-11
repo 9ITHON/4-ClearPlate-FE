@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { Scanner } from '@yudiel/react-qr-scanner';
 import { useNavStore } from "../../stores/navStore";
 import BottomNav from "../../components/BottomNav";
+import './QrScanner.css'
+
 
 // 카드 사이즈
 const CARD_RATIO = 9 / 19;
@@ -20,9 +22,9 @@ export default function Step1_QR({ onNext }) {
   const handleMock = () => onNext?.("테스트-QR-결과");
 
   return (
-    <div className="w-full flex flex-col items-center justify-center bg-gray-100 min-h-screen">
+    <div className="w-full h-screen flex flex-col items-center justify-center bg-gray-100 overflow-hidden">
       <div
-        className="relative mx-auto rounded-2xl shadow-xl flex flex-col overflow-hidden"
+        className="relative mx-auto shadow-xl flex flex-col overflow-hidden"
         style={{
           width: "100%",
           maxWidth: MAX_W,
@@ -31,23 +33,25 @@ export default function Step1_QR({ onNext }) {
         }}
       >
         {/* 상단 '식사 인증' */}
-        <div className="absolute top-6 right-6 z-30">
+        <div className="absolute top-20 right-6 z-30">
           <span className="text-white text-lg font-bold drop-shadow">식사 인증</span>
         </div>
 
         {/* 안내/진행바 */}
-        <div className="absolute left-1/2 top-14 -translate-x-1/2 z-30 flex flex-col items-center w-[90%]">
-          <div className="flex items-center w-[140px] h-3 mb-2">
+        <div className="absolute left-1/2 top-40 -translate-x-1/2 z-30 flex flex-col items-center w-[90%]">
+          <div className="flex items-center justify-center gap-2 mb-6">
             {[1, 2, 3, 4].map(i => (
-              <span
-                key={i}
-                className={`block w-2 h-2 rounded-full mx-[10px] 
-                  ${i === 1 ? "bg-white/90" : "bg-white/40"}
-                `}
-              />
+              <div key={i} className="flex items-center">
+                <span
+                  className={`block w-2 h-2 rounded-full 
+                    ${i === 1 ? "bg-white/90" : "bg-white/40"}
+                  `}
+                />
+                {i < 4 && <div className="w-8 h-[1px] bg-white/40 mx-1" />}
+              </div>
             ))}
           </div>
-          <span className="text-white text-lg font-bold drop-shadow mb-1 mt-1">
+          <span className="text-white text-xl font-bold drop-shadow mb-1">
             QR코드를 스캔해주세요.
           </span>
           <span className="text-white/90 text-[15px] text-center drop-shadow mb-1">
@@ -57,7 +61,7 @@ export default function Step1_QR({ onNext }) {
         </div>
 
         {/* QR스캐너+마스킹+네모 */}
-        <div className="absolute inset-0 z-10 rounded-2xl overflow-hidden">
+        <div className="absolute inset-0 z-10 overflow-hidden">
           <Scanner
             onResult={(result, error) => {
               if (result?.text) onNext?.(result.text);
@@ -98,50 +102,118 @@ export default function Step1_QR({ onNext }) {
 }
 
 function OverlayWithHole() {
-  const holeW = 700, holeH = 700, border = 8, cornerLen = 40, radius = 22;
-  const svgW = 1000, svgH = 1800; // 충분히 크게, but 실제 부모 크기에 맞게 설정!
-  // (1000x1800은 예시. 실제 카드 컨테이너의 width/height 알아내서 대입 추천)
+  const holeSize = 50; // 화면 가로세로 중 작은 값 기준 50% 크기
+  const border = 4, cornerLen = 30, radius = 12;
 
   return (
     <div className="absolute inset-0 pointer-events-none">
       <svg
-        width="100%" height="100%"
-        viewBox={`0 0 ${svgW} ${svgH}`}
-        style={{ position: "absolute", inset: 0, zIndex: 2 }}
+        width="100%" 
+        height="100%"
+        className="absolute inset-0"
+        style={{ zIndex: 2 }}
+        preserveAspectRatio="none"
       >
         {/* 마스크 정의 */}
         <defs>
           <mask id="scan-mask">
-            <rect width={svgW} height={svgH} fill="white" />
-            {/* 중앙 구멍 (정확히 중앙!) */}
+            <rect width="100%" height="100%" fill="white" />
+            {/* 중앙 구멍 - 정사각형 */}
             <rect
-              x={svgW/2 - holeW/2}
-              y={svgH/2 - holeH/2}
-              width={holeW} height={holeH}
+              x={`calc(50% - ${holeSize/2}vmin)`}
+              y={`calc(50% - ${holeSize/2}vmin)`}
+              width={`${holeSize}vmin`}
+              height={`${holeSize}vmin`}
               fill="black"
               rx={radius}
             />
           </mask>
         </defs>
-        {/* 어두운 오버레이 */}
-        <rect
-          width={svgW} height={svgH}
-          fill="black" fillOpacity="0.4"
-          mask="url(#scan-mask)"
-        />
-        {/* 흰색 코너, 중앙에 맞춤 */}
-        {/* 좌상 */}
-        <rect x={svgW/2-holeW/2} y={svgH/2-holeH/2} width={cornerLen} height={border} fill="#fff" rx={border} />
-        <rect x={svgW/2-holeW/2} y={svgH/2-holeH/2} width={border} height={cornerLen} fill="#fff" rx={border} />
-        {/* 우상 */}
-        <rect x={svgW/2+holeW/2-cornerLen} y={svgH/2-holeH/2} width={cornerLen} height={border} fill="#fff" rx={border} />
-        <rect x={svgW/2+holeW/2-border} y={svgH/2-holeH/2} width={border} height={cornerLen} fill="#fff" rx={border} />
-        {/* 좌하 */}
-        <rect x={svgW/2-holeW/2} y={svgH/2+holeH/2-cornerLen} width={border} height={cornerLen} fill="#fff" rx={border} />
-        <rect x={svgW/2-holeW/2} y={svgH/2+holeH/2-border} width={cornerLen} height={border} fill="#fff" rx={border} />
-        {/* 우하 */}
-        <rect x={svgW/2+holeW/2-cornerLen} y={svgH/2+holeH/2-border} width={cornerLen} height={border} fill="#fff" rx={border} />
-        <rect x={svgW/2+holeW/2-border} y={svgH/2+holeH/2-cornerLen} width={border} height={cornerLen} fill="#fff" rx={border} />
+        
+        {/* 어두운 오버레이 + 흰색 코너 그룹 */}
+        <g>
+          {/* 어두운 오버레이 */}
+          <rect
+            width="100%" 
+            height="100%"
+            fill="black" 
+            fillOpacity="0.4"
+            mask="url(#scan-mask)"
+          />
+          
+          {/* 흰색 코너들 - 마스크와 동일한 위치 */}
+          {/* 좌상 */}
+          <rect 
+            x={`calc(50% - ${holeSize/2}vmin)`}
+            y={`calc(50% - ${holeSize/2}vmin)`}
+            width={`${cornerLen}px`} 
+            height={`${border}px`} 
+            fill="#fff" 
+            rx={border/2}
+          />
+          <rect 
+            x={`calc(50% - ${holeSize/2}vmin)`}
+            y={`calc(50% - ${holeSize/2}vmin)`}
+            width={`${border}px`} 
+            height={`${cornerLen}px`} 
+            fill="#fff" 
+            rx={border/2}
+          />
+          
+          {/* 우상 */}
+          <rect 
+            x={`calc(50% + ${holeSize/2}vmin - ${cornerLen}px)`}
+            y={`calc(50% - ${holeSize/2}vmin)`}
+            width={`${cornerLen}px`} 
+            height={`${border}px`} 
+            fill="#fff" 
+            rx={border/2}
+          />
+          <rect 
+            x={`calc(50% + ${holeSize/2}vmin - ${border}px)`}
+            y={`calc(50% - ${holeSize/2}vmin)`}
+            width={`${border}px`} 
+            height={`${cornerLen}px`} 
+            fill="#fff" 
+            rx={border/2}
+          />
+          
+          {/* 좌하 */}
+          <rect 
+            x={`calc(50% - ${holeSize/2}vmin)`}
+            y={`calc(50% + ${holeSize/2}vmin - ${cornerLen}px)`}
+            width={`${border}px`} 
+            height={`${cornerLen}px`} 
+            fill="#fff" 
+            rx={border/2}
+          />
+          <rect 
+            x={`calc(50% - ${holeSize/2}vmin)`}
+            y={`calc(50% + ${holeSize/2}vmin - ${border}px)`}
+            width={`${cornerLen}px`} 
+            height={`${border}px`} 
+            fill="#fff" 
+            rx={border/2}
+          />
+          
+          {/* 우하 */}
+          <rect 
+            x={`calc(50% + ${holeSize/2}vmin - ${cornerLen}px)`}
+            y={`calc(50% + ${holeSize/2}vmin - ${border}px)`}
+            width={`${cornerLen}px`} 
+            height={`${border}px`} 
+            fill="#fff" 
+            rx={border/2}
+          />
+          <rect 
+            x={`calc(50% + ${holeSize/2}vmin - ${border}px)`}
+            y={`calc(50% + ${holeSize/2}vmin - ${cornerLen}px)`}
+            width={`${border}px`} 
+            height={`${cornerLen}px`} 
+            fill="#fff" 
+            rx={border/2}
+          />
+        </g>
       </svg>
     </div>
   );
