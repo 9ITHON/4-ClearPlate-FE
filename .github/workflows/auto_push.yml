@@ -20,9 +20,9 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.AUTO_PUSH }}
         with:
-          source-directory: 'output'
+          source-directory: "output"
           destination-github-username: kgs9843
-          destination-repository-name: CLP_Deploy
+          destination-repository-name: CLP-Deploy
           user-email: ${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
