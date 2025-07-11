@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import UpArrow from "../assets/icons/UpArrow.svg";
 import DownArrow from "../assets/icons/DownArrow.svg";
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
 const DropdownButton = ({ items, onSelectIdx, selectedStoreIdx }) => {
