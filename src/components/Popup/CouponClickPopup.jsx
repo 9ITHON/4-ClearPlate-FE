@@ -4,7 +4,7 @@ import XblockSVG from "../../assets/icons/Xblock.svg";
 
 const CouponClickPopup = ({ coupon, onClose, getDDay }) => {
   return (
-    <div className="fixed inset-0 bg-black/40 gap-2 flex flex-col justify-center items-center z-50 p-4">
+    <div className="absolute w-full h-full inset-0 bg-black/40 gap-2 flex flex-col justify-center items-center z-50 p-4">
       <div className=" flex w-full justify-end">
         <img src={XblockSVG} alt="x블록" onClick={onClose} className="w-8" />
       </div>
