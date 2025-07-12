@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { QrReader } from "react-qr-reader";
 import { useNavStore } from "../../stores/navStore";
 import BottomNav from "../../components/BottomNav";
-import './QrScanner.css';
+import "./QrScanner.css";
 
 const CARD_RATIO = 9 / 19;
 const MAX_W = 500;
@@ -12,7 +12,7 @@ export default function Step1_QR({ onNext }) {
   const showNav = useNavStore((s) => s.showNav);
   const hideNav = useNavStore((s) => s.hideNav);
 
-  // 인식 딱 한 번만: state로 제어!
+  // "QR 인식 딱 한 번만!" state
   const [scanned, setScanned] = useState(false);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function Step1_QR({ onNext }) {
     return () => hideNav();
   }, [showNav, hideNav]);
 
-  // 임의 버튼
+  // 임의 테스트 버튼
   const handleMock = () => onNext?.("테스트-QR-결과");
 
   return (
@@ -65,29 +65,43 @@ export default function Step1_QR({ onNext }) {
         {/* QR스캐너+마스킹+네모 */}
         <div className="absolute inset-0 z-10 overflow-hidden">
           <QrReader
-            constraints={{ facingMode: "environment" }}
+            constraints={{
+              facingMode: "environment",
+              width: { ideal: 1920 },
+              height: { ideal: 1080 }
+            }}
             onResult={(result, error) => {
-              // ===> 딱 한 번만 처리!
               if (result?.text && !scanned) {
-                setScanned(true); // 재인식 방지
-                alert("QR 인식 성공! 결과: " + result.text);
-                console.log("QR 결과:", result.text);
-                onNext?.(result.text);
-                // setTimeout(() => setScanned(false), 5000); // ← 재스캔 허용은 원할 때만!
+                setScanned(true); // 딱 한 번만!
+                setTimeout(() => {
+                  // 알트창 한 번만!
+                  alert("QR 인식 성공! 결과: " + result.text);
+                  onNext?.(result.text);
+                }, 100); // 약간의 delay로 중복방지
               }
               // if (error) console.error("QR 인식 에러:", error);
             }}
             style={{
               width: "100%",
               height: "100%",
-              objectFit: "cover",
               background: "black"
             }}
             videoStyle={{
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              background: "black"
+              objectPosition: "center",
+              background: "black",
+              transform: "scale(1.2)",
+              transformOrigin: "center"
+            }}
+            videoContainerStyle={{
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              overflow: "hidden"
             }}
           />
           <OverlayWithHole />
