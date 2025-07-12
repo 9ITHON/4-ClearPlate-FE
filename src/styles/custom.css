@@ -8,6 +8,10 @@
   background-color: #f7f7f7;
 }
 
+.subColorGreen {
+  background-color: #eaffeb;
+}
+
 .subTextColor {
   color: #3fd449;
 }
@@ -16,9 +20,16 @@
   background-color: #c2c2c2;
 }
 
+.textMainColor {
+  color: #003d28;
+}
 .textGrayColor {
   color: #c2c2c2;
 }
 .textGraySubColor {
   color: #afafaf;
+}
+
+.textGraySubColor2 {
+  color: #9a9a9a;
 }

@@ -3,7 +3,7 @@ import DragModal from "../components/DragModal";
 import KakaoMap from "../components/KakaoMap";
 import Search from "../assets/icons/Search.svg";
 import Notification from "../assets/icons/Notification.svg";
-import Coupon from "../assets/icons/Coupon.svg";
+import Current from "../assets/icons/Current.svg";
 import { useUserStore } from "../stores/userStore";
 import { useSelectedLocationStore } from "../stores/selectedLocationStore";
 import { useGeoLocation } from "../hooks/useGeoLocation";
@@ -18,6 +18,9 @@ import RightArrow from "../assets/icons/RightArrow.svg";
 import { getCategoryParts } from "../utils/getCategoryParts";
 import { getDistance } from "../utils/getDistance";
 import SelectedLocationCard from "../components/SelectedLocationCard";
+import Back3DIcon from "../assets/icons/Back_3D_btn.svg";
+import PointButton from "../components/PointButton";
+import StampCard from "../components/StampCard";
 
 //맛집리스트 오브젝트를 받기 위한 콘솔로그용
 //import Test from "../components/test";
@@ -57,6 +60,11 @@ const Main = () => {
 
   const handleSelectIdx = useCallback((idx) => {
     setSelectedStoreIdx(idx);
+  }, []);
+
+  //초기 설정
+  useEffect(() => {
+    setSelectedLocation(null);
   }, []);
 
   //맨 처음 위치
@@ -180,17 +188,14 @@ const Main = () => {
 
   return (
     <div className="  h-screen w-full flex flex-col">
-      <button className="absolute w-26 top-15 left-4 z-2 bg-white rounded-2xl h-9 px-4 flex flex-row justify-between items-center shadow-md">
-        <div className=" relative -left-2 mainColor rounded-4xl w-6 h-6 text-white flex justify-center items-center font-bold">
-          P
-        </div>
-        <span className="text-xs font-bold">{point} p</span>
-      </button>
+      <div className="absolute w-26 top-15 left-4 z-2">
+        <PointButton point={point} />
+      </div>
       <button
         className="absolute w-10 top-15 right-18 z-2 bg-white rounded-4xl h-9 flex flex-row justify-center items-center shadow-md"
         onClick={() => currentGPS()}
       >
-        <img src={Coupon} alt="Search" className="w-5 h-5" />
+        <img src={Current} alt="Search" className="w-5 h-5" />
       </button>
       <button className="absolute w-10 top-15 right-4 z-2 bg-white rounded-4xl h-9 flex flex-row justify-center items-center shadow-md">
         <img src={Notification} alt="Search" className="w-5 h-5" />
@@ -265,26 +270,30 @@ const Main = () => {
           </div>
         </div>
         <DragModal
-          minHeight={125}
+          minHeight={130}
           maxHeight={600}
-          initialHeight={370}
           height={initialHeight}
           setHeight={setInitialHeight}
+          backgroundColor="#f7f7f7"
         >
           {selectedLocation ? (
             <>
-              <div
-                className="h-5 w-5 bg-amber-300 mt-6"
-                onClick={() => {
-                  setSelectedLocation(null);
-                  if (keyword.trim() !== "") {
-                    setSearching(true);
-                    setInitialHeight(600);
-                  } else {
-                    setInitialHeight(370);
-                  }
-                }}
-              ></div>
+              <div className="mt-6">
+                <img
+                  src={Back3DIcon}
+                  alt="Back3DIcon"
+                  className="w-8 h-8"
+                  onClick={() => {
+                    setSelectedLocation(null);
+                    if (keyword.trim() !== "") {
+                      setSearching(true);
+                      setInitialHeight(600);
+                    } else {
+                      setInitialHeight(370);
+                    }
+                  }}
+                />
+              </div>
               <SelectedLocationCard selectedLocation={selectedLocation} />
               <div className="mt-3 w-full textGrayColor text-sm">도장</div>
               {selectedSearchStoreIdx !== null ? (
@@ -296,6 +305,12 @@ const Main = () => {
                   </div>
                 </div>
               )}
+              {selectedSearchStoreIdx !== null ? (
+                <>
+                  <StampCard selectedStoreIdx={selectedSearchStoreIdx} />
+                  <div className="mt-3 w-full h-30" />
+                </>
+              ) : null}
             </>
           ) : (
             <>

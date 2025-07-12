@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Scanner } from '@yudiel/react-qr-scanner';
+import { Scanner } from "@yudiel/react-qr-scanner";
 import { useNavStore } from "../../stores/navStore";
 import BottomNav from "../../components/BottomNav";
 import './QrScanner.css'
@@ -55,7 +55,8 @@ export default function Step1_QR({ onNext }) {
             QR코드를 스캔해주세요.
           </span>
           <span className="text-white/90 text-[15px] text-center drop-shadow mb-1">
-            사각형에 QR코드를 맞춰주세요.<br />
+            사각형에 QR코드를 맞춰주세요.
+            <br />
             가게 정보가 자동으로 인식됩니다.
           </span>
         </div>
@@ -63,7 +64,7 @@ export default function Step1_QR({ onNext }) {
         {/* QR스캐너+마스킹+네모 */}
         <div className="absolute inset-0 z-10 overflow-hidden">
           <Scanner
-            onResult={(result, error) => {
+            onResult={(result) => {
               if (result?.text) onNext?.(result.text);
             }}
             constraints={{ facingMode: "environment" }}

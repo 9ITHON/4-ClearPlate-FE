@@ -11,23 +11,32 @@ import Point from "../assets/icons/Nav_icon/Point_L.svg";
 import PointActive from "../assets/icons/Nav_icon/Point.svg";
 import UserCircle from "../assets/icons/Nav_icon/UserCircle_L.svg";
 import UserCircleActive from "../assets/icons/Nav_icon/UserCircle.svg";
+import { useNavigate } from "react-router-dom";
 
 const navItems = [
-  { label: "홈", icon: House, activeIcon: HouseActive },
-  { label: "기록", icon: Notepad, activeIcon: NotepadActive },
+  { label: "홈", icon: House, activeIcon: HouseActive, path: "/main" },
+  { label: "기록", icon: Notepad, activeIcon: NotepadActive, path: "/record" },
   {
     label: "식사 인증",
     icon: QR,
     ingIcon: QRIng,
     isCenter: true,
+    path: "/certify",
   },
-  { label: "포인트", icon: Point, activeIcon: PointActive },
-  { label: "마이페이지", icon: UserCircle, activeIcon: UserCircleActive },
+  { label: "포인트", icon: Point, activeIcon: PointActive, path: "/reward" },
+  {
+    label: "마이페이지",
+    icon: UserCircle,
+    activeIcon: UserCircleActive,
+    path: "/mypage",
+  },
 ];
 
 export default function BottomNav() {
+  const navigate = useNavigate();
   // navVisible 추가! 👇
-  const { selectedIdx, setSelectedIdx, certInProgress, navVisible } = useNavStore();
+  const { selectedIdx, setSelectedIdx, certInProgress, navVisible } =
+    useNavStore();
 
   // 네비바 숨김(로그인 등)일 때 렌더링 X 👇
   if (!navVisible) return null;
@@ -40,7 +49,7 @@ export default function BottomNav() {
         bg-white
         min-w-[300px] max-w-[500px] w-full
         rounded-t-[30px]
-        px-0
+        px-0on
         overflow-visible
         -translate-x-1/2
       "
@@ -64,7 +73,10 @@ export default function BottomNav() {
               <button
                 className="flex flex-col items-center outline-none border-none bg-transparent"
                 style={{ padding: 0, margin: 0 }}
-                onClick={() => setSelectedIdx(idx)}
+                onClick={() => {
+                  setSelectedIdx(idx);
+                  navigate(item.path);
+                }}
               >
                 <div
                   className="flex items-center justify-center"
@@ -118,7 +130,10 @@ export default function BottomNav() {
               paddingLeft: isFirst ? 30 : 0,
               paddingRight: isLast ? 30 : 0,
             }}
-            onClick={() => setSelectedIdx(idx)}
+            onClick={() => {
+              setSelectedIdx(idx);
+              navigate(item.path);
+            }}
           >
             <img
               src={isActive ? item.activeIcon : item.icon}
@@ -133,7 +148,9 @@ export default function BottomNav() {
             />
             <span
               className={`text-[13px] transition-colors duration-150 ${
-                isActive ? "text-[#003D28] font-bold" : "text-gray-400 font-normal"
+                isActive
+                  ? "text-[#003D28] font-bold"
+                  : "text-gray-400 font-normal"
               }`}
               style={{
                 letterSpacing: "-0.02em",
