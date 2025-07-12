@@ -21,7 +21,7 @@ export default function Step1_QR({ onNext }) {
     return () => hideNav();
   }, [showNav, hideNav]);
 
-  // 임의 테스트 버튼
+  // 임의 테스트 버튼 (원할 때 mock id 넘기기)
   const handleMock = () => onNext?.("테스트-QR-결과");
 
   return (
@@ -65,46 +65,46 @@ export default function Step1_QR({ onNext }) {
 
         {/* QR스캐너+마스킹+네모 */}
         <div className="absolute inset-0 z-10 overflow-hidden">
-          <QrReader
-            constraints={{
-              facingMode: "environment",
-              width: { ideal: 1920 },
-              height: { ideal: 1080 }
-            }}
-            onResult={(result, error) => {
-              if (result?.text && !scanned) {
-                setScanned(true); // 딱 한 번만!
-                setTimeout(() => {
-                  // 알트창 한 번만!
-                  alert("QR 인식 성공! 결과: " + result.text);
-                  onNext?.(result.text);
-                }, 100); // 약간의 delay로 중복방지
-              }
-              // if (error) console.error("QR 인식 에러:", error);
-            }}
-            style={{
-              width: "100%",
-              height: "100%",
-              background: "black"
-            }}
-            videoStyle={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center",
-              background: "black",
-              transform: "scale(1.2)",
-              transformOrigin: "center"
-            }}
-            videoContainerStyle={{
-              width: "100%",
-              height: "100%",
-              position: "absolute",
-              top: 0,
-              left: 0,
-              overflow: "hidden"
-            }}
-          />
+          {!scanned && (
+            <QrReader
+              constraints={{
+                facingMode: "environment",
+                width: { ideal: 1920 },
+                height: { ideal: 1080 }
+              }}
+              onResult={(result, error) => {
+                if (result?.text && !scanned) {
+                  setScanned(true); // 먼저 true로 만들어 언마운트!
+                  setTimeout(() => {
+                    alert("QR 인식 성공! 결과: " + result.text);
+                    onNext?.(result.text);
+                  }, 100);
+                }
+              }}
+              style={{
+                width: "100%",
+                height: "100%",
+                background: "black"
+              }}
+              videoStyle={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center",
+                background: "black",
+                transform: "scale(1.2)",
+                transformOrigin: "center"
+              }}
+              videoContainerStyle={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                overflow: "hidden"
+              }}
+            />
+          )}
           <OverlayWithHole />
         </div>
 
