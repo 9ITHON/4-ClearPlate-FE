@@ -8,6 +8,7 @@ const CARD_RATIO = 9 / 19;
 const MAX_W = 500;
 const MIN_W = 300;
 
+// Step1_QR: QR코드 스캔 → id 추출 → onNext(id) 호출
 export default function Step1_QR({ onNext }) {
   const showNav = useNavStore((s) => s.showNav);
   const hideNav = useNavStore((s) => s.hideNav);
@@ -124,6 +125,7 @@ export default function Step1_QR({ onNext }) {
   );
 }
 
+// 중앙 네모 마스킹 오버레이
 function OverlayWithHole() {
   const holeSize = 50; // 화면 가로세로 중 작은 값 기준 50% 크기
   const border = 4, cornerLen = 30, radius = 12;
