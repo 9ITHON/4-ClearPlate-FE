@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { QrReader } from "react-qr-reader";
 import { useNavStore } from "../../stores/navStore";
 import BottomNav from "../../components/BottomNav";
@@ -15,14 +15,44 @@ export default function Step1_QR({ onNext }) {
 
   // "QR 인식 딱 한 번만!" state
   const [scanned, setScanned] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const processedRef = useRef(false); // 추가: 이미 처리된 결과인지 체크
 
   useEffect(() => {
     showNav();
-    return () => hideNav();
+    return () => {
+      hideNav();
+      // 컴포넌트 언마운트 시 상태 초기화
+      processedRef.current = false;
+    };
   }, [showNav, hideNav]);
 
+  // QR 결과 처리 함수
+  const handleQRResult = (result) => {
+    // 이미 처리 중이거나 처리된 결과면 무시
+    if (isProcessing || processedRef.current || scanned) {
+      return;
+    }
+
+    setIsProcessing(true);
+    setScanned(true);
+    processedRef.current = true;
+
+    // 즉시 alert 표시하고 다음 단계로 진행
+    alert("QR 인식 성공! 결과: " + result);
+    
+    // 약간의 딜레이 후 다음 단계로 진행
+    setTimeout(() => {
+      onNext?.(result);
+    }, 100);
+  };
+
   // 임의 테스트 버튼 (원할 때 mock id 넘기기)
-  const handleMock = () => onNext?.("테스트-QR-결과");
+  const handleMock = () => {
+    if (!isProcessing && !processedRef.current) {
+      handleQRResult("테스트-QR-결과");
+    }
+  };
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center bg-gray-100 overflow-hidden">
@@ -55,11 +85,15 @@ export default function Step1_QR({ onNext }) {
             ))}
           </div>
           <span className="text-white text-xl font-bold drop-shadow mb-1">
-            QR코드를 스캔해주세요.
+            {isProcessing ? "처리 중..." : "QR코드를 스캔해주세요."}
           </span>
           <span className="text-white/90 text-[15px] text-center drop-shadow mb-1">
-            사각형에 QR코드를 맞춰주세요.<br />
-            가게 정보가 자동으로 인식됩니다.
+            {isProcessing ? "잠시만 기다려주세요." : (
+              <>
+                사각형에 QR코드를 맞춰주세요.<br />
+                가게 정보가 자동으로 인식됩니다.
+              </>
+            )}
           </span>
         </div>
 
@@ -73,12 +107,8 @@ export default function Step1_QR({ onNext }) {
                 height: { ideal: 1080 }
               }}
               onResult={(result, error) => {
-                if (result?.text && !scanned) {
-                  setScanned(true); // 먼저 true로 만들어 언마운트!
-                  setTimeout(() => {
-                    alert("QR 인식 성공! 결과: " + result.text);
-                    onNext?.(result.text);
-                  }, 100);
+                if (result?.text) {
+                  handleQRResult(result.text);
                 }
               }}
               style={{
@@ -112,9 +142,14 @@ export default function Step1_QR({ onNext }) {
         <div className="absolute w-full left-0 bottom-0 flex flex-col items-center pb-4 z-40">
           <button
             onClick={handleMock}
-            className="mb-30 px-8 py-3 bg-[#124534] text-white rounded-xl font-semibold shadow-lg"
+            disabled={isProcessing}
+            className={`mb-30 px-8 py-3 rounded-xl font-semibold shadow-lg ${
+              isProcessing 
+                ? "bg-gray-400 text-gray-200 cursor-not-allowed" 
+                : "bg-[#124534] text-white"
+            }`}
           >
-            확인(임의)
+            {isProcessing ? "처리 중..." : "확인(임의)"}
           </button>
           <div className="w-full">
             <BottomNav />
