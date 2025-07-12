@@ -40,11 +40,11 @@ export default function Step2_Map({ qrResult, onNext, onPrev, onExit }) {
   return (
     <div className="h-screen w-full flex flex-col relative">
       {/* 디버깅 정보 표시 */}
-      <div className="absolute top-16 left-4 z-30 bg-black/70 text-white p-2 rounded text-xs">
+      {/* <div className="absolute top-16 left-4 z-30 bg-black/70 text-white p-2 rounded text-xs">
         <div>QR: {qrResult}</div>
         <div>Store Index: {selectedSearchStoreIdx}</div>
         <div>Location: {selectedLocation?.place_name || "없음"}</div>
-      </div>
+      </div> */}
 
       {/* 상단 뒤로가기 버튼 */}
       <button
