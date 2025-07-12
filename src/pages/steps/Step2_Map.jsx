@@ -31,7 +31,7 @@ export default function Step2_Map({ qrResult, onNext, onPrev, onExit }) {
   return (
     <div className="h-screen w-full flex flex-col relative">
       {/* 상단 뒤로가기 버튼 */}
-      <button 
+      <button
         className="absolute top-4 left-4 z-20 flex items-center justify-center w-12 h-12 transition-transform hover:scale-110"
         onClick={onPrev}
       >
@@ -87,15 +87,21 @@ export default function Step2_Map({ qrResult, onNext, onPrev, onExit }) {
       <div className="absolute bottom-0 left-0 right-0 z-20 p-4 flex gap-3 ">
         <button
           onClick={onPrev}
-          className="flex-1 h-12 rounded-full font-bold text-lg transition-all duration-200 bg-white  hover:bg-gray-50"
+          className="flex-1 h-12 rounded-full bg-white font-bold"
+          type="button"
         >
           뒤로가기
         </button>
         <button
-          className="flex-1 h-12 rounded-full text-white font-bold text-lg transition-all duration-200 shadow-lg"
-          style={{ backgroundColor: '#003D28' }}
+          className={
+            selectedLocation
+              ? "flex-1 h-12 rounded-full text-white font-bold shadow"
+              : "flex-1 h-12 rounded-full bg-gray-300 text-gray-500 font-bold"
+          }
+          style={selectedLocation ? { backgroundColor: '#003D28' } : undefined}
           onClick={() => onNext({ name: qrResult, review: "" })}
           disabled={!selectedLocation}
+          type="button"
         >
           다음
         </button>

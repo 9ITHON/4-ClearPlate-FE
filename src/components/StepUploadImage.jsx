@@ -68,14 +68,14 @@ export default function StepUploadImage({
           <div className={
             circle
               ? "w-72 h-72 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center mb-6 shadow"
-              : "w-80 h-60 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center mb-6 shadow border-2 border-dashed border-gray-300"
+              : "w-80 h-80 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center mb-6 shadow"
           }>
             <img src={image.url} alt="preview" className="object-cover w-full h-full" />
           </div>
           <div className="font-bold text-xl mb-2">확인됐습니다!</div>
           <div className="text-gray-500 text-center text-sm mb-2 px-2">
             {circle
-              ? <>식사 맛있게 하세요! 완식 확인 잊지마세요!<br />바로 분석한다면, ‘다음’ 버튼을 눌러주세요.</>
+              ? <>식사 맛있게 하세요! 완식 확인 잊지마세요!<br />바로 분석한다면, '다음' 버튼을 눌러주세요.</>
               : <>접시 상태가 업로드됐어요.<br />바로 분석하려면 '다음' 버튼을 눌러주세요.</>
             }
           </div>
@@ -124,12 +124,16 @@ export default function StepUploadImage({
           className={
             circle
               ? "w-72 h-72 flex items-center justify-center cursor-pointer bg-transparent mb-4"
-              : "w-80 h-60 flex items-center justify-center cursor-pointer bg-[#F7F7F7] rounded-xl border-2 border-dashed border-gray-300 mb-4"
+              : "w-80 h-80 flex items-center justify-center cursor-pointer bg-[#F7F7F7] rounded-xl mb-4"
           }
           onClick={handleUploadClick}
           type="button"
         >
-          <img src={UploadIcon} alt="업로드" className={circle ? "w-full h-full object-contain" : "w-20 h-20 object-contain opacity-60"} />
+          <img
+            src={UploadIcon}
+            alt="업로드"
+            className="w-full h-full object-contain"
+          />
         </button>
         <input
           ref={fileInputRef}
