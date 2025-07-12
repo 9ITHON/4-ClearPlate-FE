@@ -39,7 +39,7 @@ export default function Step1_QR({ onNext }) {
     processedRef.current = true;
 
     // 즉시 alert 표시하고 다음 단계로 진행
-    alert("QR 인식 성공! 결과: " + result);
+    // alert("QR 인식 성공! 결과: " + result);
     
     // 약간의 딜레이 후 다음 단계로 진행
     setTimeout(() => {
