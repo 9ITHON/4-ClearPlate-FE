@@ -84,14 +84,15 @@ export default function StepUploadImage({
         {/* 하단 버튼 */}
         <div className="flex gap-2 w-full px-6 pt-4 pb-6">
           <button
-            className="flex-1 h-12 rounded-full bg-white border text-gray-700 font-bold shadow"
+            className="flex-1 h-12 rounded-full bg-white  font-bold "
             onClick={onHome}
             type="button"
           >
             홈으로
           </button>
           <button
-            className="flex-1 h-12 rounded-full bg-green-700 text-white font-bold shadow"
+            className="flex-1 h-12 rounded-full text-white font-bold shadow"
+            style={{ backgroundColor: '#003D28' }}
             onClick={() => onNext && onNext(image)}
             type="button"
           >
@@ -141,14 +142,14 @@ export default function StepUploadImage({
       {/* 하단 버튼 */}
       <div className="flex gap-2 w-full px-6 pt-4 pb-6">
         <button
-          className="flex-1 h-12 rounded-full bg-white border text-gray-700 font-bold shadow"
+          className="flex-1 h-12 rounded-full bg-white font-bold "
           onClick={onPrev}
           type="button"
         >
           뒤로가기
         </button>
         <button
-          className="flex-1 h-12 rounded-full bg-gray-300 text-gray-500 font-bold shadow"
+          className="flex-1 h-12 rounded-full bg-gray-300 text-gray-500 font-bold "
           disabled
           type="button"
         >

@@ -140,7 +140,7 @@ export default function Step1_QR({ onNext }) {
 
         {/* 하단: 버튼+네비바 */}
         <div className="absolute w-full left-0 bottom-0 flex flex-col items-center pb-4 z-40">
-          <button
+          {/* <button
             onClick={handleMock}
             disabled={isProcessing}
             className={`mb-30 px-8 py-3 rounded-xl font-semibold shadow-lg ${
@@ -150,7 +150,7 @@ export default function Step1_QR({ onNext }) {
             }`}
           >
             {isProcessing ? "처리 중..." : "확인(임의)"}
-          </button>
+          </button> */}
           <div className="w-full">
             <BottomNav />
           </div>
