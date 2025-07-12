@@ -28,12 +28,12 @@ export default function Step6_Result({ storeId, analyze, onRestart }) {
           <img src={BackBtn} alt="뒤로" className="w-7 h-7" />
         </button>
         <span className="flex-1 text-center text-gray-700 font-bold text-lg">식사 인증</span>
-        <button
+        {/* <button
           onClick={onRestart}
           className="w-9 h-9 rounded text-xs font-semibold text-gray-400 border border-gray-200 flex items-center justify-center"
         >
           재시작
-        </button>
+        </button> */}
       </div>
 
       {/* 캐릭터+말풍선 */}
