@@ -1,11 +1,9 @@
-import { useEffect } from "react";
-import { Scanner } from "@yudiel/react-qr-scanner";
+import { useEffect, useState } from "react";
+import { QrReader } from "react-qr-reader";
 import { useNavStore } from "../../stores/navStore";
 import BottomNav from "../../components/BottomNav";
-import './QrScanner.css'
+import './QrScanner.css';
 
-
-// 카드 사이즈
 const CARD_RATIO = 9 / 19;
 const MAX_W = 500;
 const MIN_W = 300;
@@ -14,11 +12,15 @@ export default function Step1_QR({ onNext }) {
   const showNav = useNavStore((s) => s.showNav);
   const hideNav = useNavStore((s) => s.hideNav);
 
+  // 인식 딱 한 번만: state로 제어!
+  const [scanned, setScanned] = useState(false);
+
   useEffect(() => {
     showNav();
     return () => hideNav();
   }, [showNav, hideNav]);
 
+  // 임의 버튼
   const handleMock = () => onNext?.("테스트-QR-결과");
 
   return (
@@ -55,19 +57,26 @@ export default function Step1_QR({ onNext }) {
             QR코드를 스캔해주세요.
           </span>
           <span className="text-white/90 text-[15px] text-center drop-shadow mb-1">
-            사각형에 QR코드를 맞춰주세요.
-            <br />
+            사각형에 QR코드를 맞춰주세요.<br />
             가게 정보가 자동으로 인식됩니다.
           </span>
         </div>
 
         {/* QR스캐너+마스킹+네모 */}
         <div className="absolute inset-0 z-10 overflow-hidden">
-          <Scanner
-            onResult={(result) => {
-              if (result?.text) onNext?.(result.text);
-            }}
+          <QrReader
             constraints={{ facingMode: "environment" }}
+            onResult={(result, error) => {
+              // ===> 딱 한 번만 처리!
+              if (result?.text && !scanned) {
+                setScanned(true); // 재인식 방지
+                alert("QR 인식 성공! 결과: " + result.text);
+                console.log("QR 결과:", result.text);
+                onNext?.(result.text);
+                // setTimeout(() => setScanned(false), 5000); // ← 재스캔 허용은 원할 때만!
+              }
+              // if (error) console.error("QR 인식 에러:", error);
+            }}
             style={{
               width: "100%",
               height: "100%",
@@ -78,9 +87,8 @@ export default function Step1_QR({ onNext }) {
               width: "100%",
               height: "100%",
               objectFit: "cover",
+              background: "black"
             }}
-            hideBorder={true} // 기본 빨간 라인 완전 OFF
-            isShowScanningLine={false}
           />
           <OverlayWithHole />
         </div>
@@ -109,7 +117,7 @@ function OverlayWithHole() {
   return (
     <div className="absolute inset-0 pointer-events-none">
       <svg
-        width="100%" 
+        width="100%"
         height="100%"
         className="absolute inset-0"
         style={{ zIndex: 2 }}
@@ -121,8 +129,8 @@ function OverlayWithHole() {
             <rect width="100%" height="100%" fill="white" />
             {/* 중앙 구멍 - 정사각형 */}
             <rect
-              x={`calc(50% - ${holeSize/2}vmin)`}
-              y={`calc(50% - ${holeSize/2}vmin)`}
+              x={`calc(50% - ${holeSize / 2}vmin)`}
+              y={`calc(50% - ${holeSize / 2}vmin)`}
               width={`${holeSize}vmin`}
               height={`${holeSize}vmin`}
               fill="black"
@@ -130,89 +138,82 @@ function OverlayWithHole() {
             />
           </mask>
         </defs>
-        
-        {/* 어두운 오버레이 + 흰색 코너 그룹 */}
         <g>
-          {/* 어두운 오버레이 */}
           <rect
-            width="100%" 
+            width="100%"
             height="100%"
-            fill="black" 
+            fill="black"
             fillOpacity="0.4"
             mask="url(#scan-mask)"
           />
-          
-          {/* 흰색 코너들 - 마스크와 동일한 위치 */}
+          {/* 코너 네모들 */}
           {/* 좌상 */}
-          <rect 
-            x={`calc(50% - ${holeSize/2}vmin)`}
-            y={`calc(50% - ${holeSize/2}vmin)`}
-            width={`${cornerLen}px`} 
-            height={`${border}px`} 
-            fill="#fff" 
-            rx={border/2}
+          <rect
+            x={`calc(50% - ${holeSize / 2}vmin)`}
+            y={`calc(50% - ${holeSize / 2}vmin)`}
+            width={`${cornerLen}px`}
+            height={`${border}px`}
+            fill="#fff"
+            rx={border / 2}
           />
-          <rect 
-            x={`calc(50% - ${holeSize/2}vmin)`}
-            y={`calc(50% - ${holeSize/2}vmin)`}
-            width={`${border}px`} 
-            height={`${cornerLen}px`} 
-            fill="#fff" 
-            rx={border/2}
+          <rect
+            x={`calc(50% - ${holeSize / 2}vmin)`}
+            y={`calc(50% - ${holeSize / 2}vmin)`}
+            width={`${border}px`}
+            height={`${cornerLen}px`}
+            fill="#fff"
+            rx={border / 2}
           />
-          
           {/* 우상 */}
-          <rect 
-            x={`calc(50% + ${holeSize/2}vmin - ${cornerLen}px)`}
-            y={`calc(50% - ${holeSize/2}vmin)`}
-            width={`${cornerLen}px`} 
-            height={`${border}px`} 
-            fill="#fff" 
-            rx={border/2}
+          <rect
+            x={`calc(50% + ${holeSize / 2}vmin - ${cornerLen}px)`}
+            y={`calc(50% - ${holeSize / 2}vmin)`}
+            width={`${cornerLen}px`}
+            height={`${border}px`}
+            fill="#fff"
+            rx={border / 2}
           />
-          <rect 
-            x={`calc(50% + ${holeSize/2}vmin - ${border}px)`}
-            y={`calc(50% - ${holeSize/2}vmin)`}
-            width={`${border}px`} 
-            height={`${cornerLen}px`} 
-            fill="#fff" 
-            rx={border/2}
+          <rect
+            x={`calc(50% + ${holeSize / 2}vmin - ${border}px)`}
+            y={`calc(50% - ${holeSize / 2}vmin)`}
+            width={`${border}px`}
+            height={`${cornerLen}px`}
+            fill="#fff"
+            rx={border / 2}
           />
-          
           {/* 좌하 */}
-          <rect 
-            x={`calc(50% - ${holeSize/2}vmin)`}
-            y={`calc(50% + ${holeSize/2}vmin - ${cornerLen}px)`}
-            width={`${border}px`} 
-            height={`${cornerLen}px`} 
-            fill="#fff" 
-            rx={border/2}
+          <rect
+            x={`calc(50% - ${holeSize / 2}vmin)`}
+            y={`calc(50% + ${holeSize / 2}vmin - ${cornerLen}px)`}
+            width={`${border}px`}
+            height={`${cornerLen}px`}
+            fill="#fff"
+            rx={border / 2}
           />
-          <rect 
-            x={`calc(50% - ${holeSize/2}vmin)`}
-            y={`calc(50% + ${holeSize/2}vmin - ${border}px)`}
-            width={`${cornerLen}px`} 
-            height={`${border}px`} 
-            fill="#fff" 
-            rx={border/2}
+          <rect
+            x={`calc(50% - ${holeSize / 2}vmin)`}
+            y={`calc(50% + ${holeSize / 2}vmin - ${border}px)`}
+            width={`${cornerLen}px`}
+            height={`${border}px`}
+            fill="#fff"
+            rx={border / 2}
           />
-          
           {/* 우하 */}
-          <rect 
-            x={`calc(50% + ${holeSize/2}vmin - ${cornerLen}px)`}
-            y={`calc(50% + ${holeSize/2}vmin - ${border}px)`}
-            width={`${cornerLen}px`} 
-            height={`${border}px`} 
-            fill="#fff" 
-            rx={border/2}
+          <rect
+            x={`calc(50% + ${holeSize / 2}vmin - ${cornerLen}px)`}
+            y={`calc(50% + ${holeSize / 2}vmin - ${border}px)`}
+            width={`${cornerLen}px`}
+            height={`${border}px`}
+            fill="#fff"
+            rx={border / 2}
           />
-          <rect 
-            x={`calc(50% + ${holeSize/2}vmin - ${border}px)`}
-            y={`calc(50% + ${holeSize/2}vmin - ${cornerLen}px)`}
-            width={`${border}px`} 
-            height={`${cornerLen}px`} 
-            fill="#fff" 
-            rx={border/2}
+          <rect
+            x={`calc(50% + ${holeSize / 2}vmin - ${border}px)`}
+            y={`calc(50% + ${holeSize / 2}vmin - ${cornerLen}px)`}
+            width={`${border}px`}
+            height={`${cornerLen}px`}
+            fill="#fff"
+            rx={border / 2}
           />
         </g>
       </svg>
